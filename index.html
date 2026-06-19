@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@400..900&family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Gravitas+One&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Momo+Signature&family=Momo+Trust+Display&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Orbitron:wght@400..900&family=Oswald:wght@200..700&family=Playwrite+DE+SAS:wght@100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Stack+Sans+Text:wght@200..700&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            FRAME <span class="nav-username" id="nav-username">...</span>
+        </div>
+        
+        <div class="menu" id="menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        
+        <nav id="nav-menu">
+            <span class="close-menu" id="menu-close">FECHAR</span>
+            <a href="#" id="menu-link-galeria"><i class="fa-regular fa-images"></i> GALERIA</a>
+            <a href="#"><i class="fa-solid fa-circle-info"></i> SOBRE</a>
+            <a href="#" id="nav-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> SAIR</a>
+        </nav>
+    
+        <div class="actions">
+            <button id="btn-abrir-publicar"><i class="fa-solid fa-plus"></i> <span>PUBLICAR</span></button>
+        </div>
+    </header>
+
+    <section class="profile-section">
+        <div class="profile-container">
+            <div class="profile-left">
+                <div class="profile-avatar-container">
+                    <div id="avatar-content">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <button id="btn-avatar-action" class="avatar-action-btn" title="Adicionar foto de perfil">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <input type="file" id="avatar-upload-input" accept="image/*" style="display: none;">
+                </div>
+            </div>
+            
+            <div class="profile-right">
+                <div class="counter-box">
+                    <span class="counter-number">0</span>
+                    <span class="counter-label">Registros</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero">
+        <div class="content">
+            <p class="paragrafoPost" id="paragrafoPost">Seu espaço para registros, compartilhe seus momentos e enriqueça sua galeria.</p>
+        </div>
+    </section>
+
+    <h4 class="textFeed">
+        <span>Registros <i class="fa-solid fa-camera"></i></span>
+    </h4>
+
+    <section class="recent">
+        <div class="gallery">
+            <div class="sem-registros" style="grid-column: 1 / -1; text-align: center; padding: 30px 20px; color: #888; font-size: 16px; font-weight: 500;">
+                <i class="fa-regular fa-images" style="display: block; font-size: 32px; margin-bottom: 12px; color: #ccc;"></i>
+                Carregando registros...
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="publicarModal">
+        <div class="modal-card">
+            <h3>Novo registro</h3>
+            <form id="form-publicar">
+                <div style="margin-bottom: 15px; text-align: left;">
+                    <label style="display:block; margin-bottom: 5px; font-weight:600;">Escolha a Imagem:</label>
+                    
+                    <input type="file" id="input-imagem" accept="image/*" required style="display: none;">
+                    
+                    <button type="button" id="btn-falso-upload" style="width: 100%; padding: 15px; border: 2px dashed #ddd; background: #fafafa; border-radius: 8px; cursor: pointer; font-size: 14px; color: #555; font-weight: 500;">
+                        <i class="fa-regular fa-image" style="margin-right: 5px;"></i> Selecionar da Galeria
+                    </button>
+                    
+                    <p id="nome-arquivo-selecionado" style="font-size: 12px; color: #28a745; margin-top: 6px; font-weight: 500; display: none; text-align: center;"></p>
+                </div>
+    
+                <div class="modal-buttons">
+                    <button type="button" class="btn-modal-cancel" id="btnCancelarPublicar">Cancelar</button>
+                    <button type="submit" class="btn-modal-confirm" id="btnEnviarPost">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deletePostModal">
+        <div class="modal-card">
+            <h3>Apagar registro</h3>
+            <p style="margin: 15px 0; color: #555; font-size: 14px;">Deseja apagar este registro?</p>
+            <div class="modal-buttons">
+                <button type="button" class="btn-modal-cancel" id="btnCancelDeletePost">Cancelar</button>
+                <button type="button" class="btn-modal-confirm" id="btnConfirmDeletePost" style="background-color: #dc3545;">Apagar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="galeriaModal">
+        <div class="modal-card" style="max-width: 800px; width: 95%; max-height: 85vh; overflow-y: auto; padding: 25px;">
+            <div class="minha-galeria-section" style="padding: 0; max-width: 100%;">
+                <div class="galeria-header">
+                    <h3>Minha Galeria</h3>
+                    <span class="galeria-contador">0 momentos salvos</span>
+                </div>
+                <div class="album-photos-grid"></div>
+            </div>
+            <div class="modal-buttons" style="margin-top: 25px;">
+                <button type="button" class="btn-modal-cancel" id="btnFecharGaleria" style="width: 100%; font-size: 15px;">Fechar Galeria</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="optionsModal">
+        <div class="bottom-sheet">
+            <div class="sheet-drag-handle"></div>
+            <div class="sheet-buttons">
+                <button class="sheet-item btn-add-gallery-mobile"><i class="fa-regular fa-images"></i> Adicionar à galeria</button>
+                <button class="sheet-item btn-delete-post-mobile"><i class="fa-regular fa-trash-can"></i> Apagar registro</button>
+                <button class="sheet-item btn-sheet-cancel" id="btnCancelSheet">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-card">
+            <div class="modal-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+            <h3>Deseja sair da conta?</h3>
+            <p>Você terá que fazer login novamente para acessar seus registros.</p>
+            <div class="modal-buttons">
+                <button class="btn-modal-cancel" id="btnCancelLogout">Cancelar</button>
+                <button class="btn-modal-confirm" id="btnConfirmLogout">Sair da Conta</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteAvatarModal">
+        <div class="modal-card">
+            <div class="modal-icon" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30;">
+                <i class="fa-regular fa-trash-can"></i>
+            </div>
+            <h3>Deseja excluir foto de perfil?</h3>
+            <div class="modal-buttons">
+                <button class="btn-modal-cancel" id="btnCancelDeleteAvatar">Cancelar</button>
+                <button class="btn-modal-confirm" id="btnConfirmDeleteAvatar" style="background: #ff3b30;">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">FRAME</div>
+        <p>© 2026 Frame. Compartilhe momentos, não métricas.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>

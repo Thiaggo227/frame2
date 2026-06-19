@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame - Entrar</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* Estilos adicionais para posicionar o olho corretamente dentro do input */
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+        .toggle-password:hover {
+            color: #333;
+        }
+        /* Garante que o texto longo não fique por baixo do olho */
+        #passwordInput {
+            padding-right: 45px;
+        }
+
+        /* Estilos para o Modal Customizado de Erro de Autenticação */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            transition: transform 0.2s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            font-size: 44px;
+            margin-bottom: 15px;
+            color: #e74c3c;
+        }
+
+        .modal-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 10px;
+        }
+
+        .modal-card p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-modal-confirm {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #fff;
+            background-color: #333;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .btn-modal-confirm:hover {
+            background-color: #111;
+        }
+    </style>
+</head>
+<body class="login-body">
+
+    <div class="login-container">
+        <a href="index.html" class="login-logo">FRAME</a>
+        
+        <h2>Bem-vindo</h2>
+        <p class="login-subtitle">Entre para continuar compartilhando seus momentos.</p>
+
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <i class="fa-regular fa-envelope input-icon"></i>
+                <input type="email" id="emailInput" placeholder="E-mail" required autocomplete="email">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="passwordInput" placeholder="Senha" required autocomplete="current-password">
+                <i class="fa-regular fa-eye toggle-password" id="togglePasswordIcon"></i>
+            </div>
+
+            <div class="login-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe"> Lembrar de mim
+                </label>
+                <a href="#" class="forgot-password" id="btnEsqueciSenha">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnEntrar">
+                ENTRAR <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
+        </form>
+
+        <div class="login-footer">
+            Não tem uma conta? <a href="cadastro.html">Criar Conta</a>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal-card">
+            <div class="modal-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+            <h3>Falha ao entrar</h3>
+            <p>E-mail ou senha incorretos. Por favor, verifique os dados e tente novamente.</p>
+            <div class="modal-buttons">
+                <button class="btn-modal-confirm" id="btnFecharErro">Tentar Novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://bztpwtrvcidhoesunjrl.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_q4ttpTsNleNbTiZlZlUaEA_kOgqsXnF";
+        const supabaseLogin = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const passwordInput = document.getElementById('passwordInput');
+        const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+        const btnEsqueciSenha = document.getElementById('btnEsqueciSenha');
+
+        const errorModal = document.getElementById('errorModal');
+        const btnFecharErro = document.getElementById('btnFecharErro');
+
+        // Mostrar/esconder a senha
+        togglePasswordIcon.addEventListener('click', function() {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            
+            if (isPassword) {
+                togglePasswordIcon.classList.remove('fa-regular', 'fa-eye');
+                togglePasswordIcon.classList.add('fa-solid', 'fa-eye-slash');
+            } else {
+                togglePasswordIcon.classList.remove('fa-solid', 'fa-eye-slash');
+                togglePasswordIcon.classList.add('fa-regular', 'fa-eye');
+            }
+        });
+
+        // Recuperação de Senha
+        btnEsqueciSenha.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const email = prompt("Digite o e-mail da sua conta para receber o link de redefinição:");
+            if (!email || email.trim() === "") return;
+
+            try {
+                const { error } = await supabaseLogin.auth.resetPasswordForEmail(email.trim(), {
+                    redirectTo: window.location.origin + '/redefinir-senha.html',
+                });
+                if (error) throw error;
+                alert("E-mail de redefinição enviado com sucesso! Verifique a sua caixa de entrada.");
+            } catch (error) {
+                alert("Erro ao enviar e-mail: " + error.message);
+            }
+        });
+
+        // Fechar modal de erro ao clicar no botão
+        btnFecharErro.addEventListener('click', () => {
+            errorModal.classList.remove('active');
+        });
+
+        // Fechar modal de erro ao clicar fora do card
+        document.addEventListener('click', (e) => {
+            if (e.target === errorModal) {
+                errorModal.classList.remove('active');
+            }
+        });
+
+        // Fluxo de Login com exibição do Modal customizado
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('btnEntrar');
+            const email = document.getElementById('emailInput').value.trim();
+            const password = passwordInput.value;
+
+            try {
+                btn.innerText = "AUTENTICANDO...";
+                btn.disabled = true;
+
+                const { data, error } = await supabaseLogin.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) throw error;
+
+                if (data && data.session) {
+                    window.location.href = "index.html";
+                }
+
+            } catch (error) {
+                console.error(error);
+                // Ativa o modal customizado em vez do alert() nativo
+                errorModal.classList.add('active');
+            } finally {
+                btn.innerHTML = 'ENTRAR <i class="fa-solid fa-right-to-bracket"></i>';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame - Criar Conta</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* Estilos adicionais para posicionar o olho corretamente dentro do input */
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+        .toggle-password:hover {
+            color: #333;
+        }
+        /* Garante que o texto longo não fique por baixo do olho */
+        #passwordInput {
+            padding-right: 45px;
+        }
+        * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    .login-body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .input-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .input-group input {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .btn-login {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 15px;
+        cursor: pointer;
+        color: #888;
+        transition: color 0.2s;
+        z-index: 10;
+    }
+
+    .toggle-password:hover {
+        color: #333;
+    }
+
+    #passwordInput {
+        padding-right: 45px;
+    }
+
+    /* Proteção extra para celulares */
+    @media (max-width: 480px) {
+        .login-container {
+            width: 100%;
+            padding: 15px;
+        }
+
+        input,
+        button {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+    </style>
+</head>
+<body class="login-body">
+
+    <div class="login-container">
+        <a href="index.html" class="login-logo">FRAME</a>
+        
+        <h2>Criar sua conta</h2>
+        <p class="login-subtitle">Comece a compartilhar seus momentos de forma consciente.</p>
+
+        <form class="login-form" id="registerForm">
+            <div class="input-group">
+                <i class="fa-regular fa-user input-icon"></i>
+                <input type="text" id="usernameInput" value="@" placeholder="Nome de usuário (ex: @thiagosilva)" required autocomplete="off" pattern="^@.+" title="O nome de usuário deve começar com @">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-regular fa-envelope input-icon"></i>
+                <input type="email" id="emailInput" placeholder="E-mail" required autocomplete="email">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="passwordInput" placeholder="Senha (mínimo 6 caracteres)" required>
+                <i class="fa-regular fa-eye toggle-password" id="togglePasswordIcon"></i>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnCriarConta">
+                CRIAR CONTA <i class="fa-solid fa-user-plus"></i>
+            </button>
+        </form>
+
+        <div class="login-footer">
+            Já tem uma conta? <a href="login.html">Faça login</a>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://bztpwtrvcidhoesunjrl.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_q4ttpTsNleNbTiZlZlUaEA_kOgqsXnF";
+
+        const supabaseCadastro = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Lógica do campo de usuário para fixar o '@'
+        const usernameInput = document.getElementById('usernameInput');
+
+        usernameInput.addEventListener('input', function() {
+            // Garante que o texto sempre comece com @, mesmo que apaguem tudo
+            if (!usernameInput.value.startsWith('@')) {
+                usernameInput.value = '@' + usernameInput.value.replace(/@/g, '');
+            }
+        });
+
+        usernameInput.addEventListener('keydown', function(e) {
+            // Se o cursor estiver na posição inicial (atrás do @) e tentar apagar, impede a ação
+            if (usernameInput.selectionStart === 1 && usernameInput.selectionEnd === 1 && e.key === 'Backspace') {
+                e.preventDefault();
+            }
+        });
+
+        // Lógica para mostrar/esconder a senha
+        const passwordInput = document.getElementById('passwordInput');
+        const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+
+        togglePasswordIcon.addEventListener('click', function() {
+            // Verifica o tipo atual do input
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            
+            // Alterna o tipo do input
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            
+            // Alterna a classe do ícone (olho aberto / olho cortado)
+            if (isPassword) {
+                togglePasswordIcon.classList.remove('fa-regular', 'fa-eye');
+                togglePasswordIcon.classList.add('fa-solid', 'fa-eye-slash');
+            } else {
+                togglePasswordIcon.classList.remove('fa-solid', 'fa-eye-slash');
+                togglePasswordIcon.classList.add('fa-regular', 'fa-eye');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('btnCriarConta');
+            const username = usernameInput.value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const password = passwordInput.value; 
+
+            if (!username.startsWith('@')) {
+                alert("O nome de usuário obrigatoriamente deve começar com '@' (ex: @TntSports).");
+                return;
+            }
+
+            if (username.length < 2) {
+                alert("Por favor, digite um nome de usuário válido após o '@'.");
+                return;
+            }
+
+            if(password.length < 6) {
+                alert("A senha precisa ter pelo menos 6 caracteres.");
+                return;
+            }
+
+            try {
+                btn.innerText = "CRIANDO CONTA...";
+                btn.disabled = true;
+
+                // 1. Cria a autenticação interna no Supabase
+                const { data: authData, error: authError } = await supabaseCadastro.auth.signUp({
+                    email: email,
+                    password: password
+                });
+
+                if (authError) throw authError;
+
+                if (authData && authData.user) {
+                    // 2. Insere na tabela 'perfis' apenas o ID e o Username
+                    const { error: profileError } = await supabaseCadastro
+                        .from('perfis')
+                        .insert([{ id: authData.user.id, username: username }]);
+
+                    if (profileError) throw profileError;
+
+                    alert("Conta criada com sucesso!");
+                    window.location.href = "login.html";
+                } else {
+                    alert("Conta registrada com sucesso!");
+                    window.location.href = "login.html";
+                }
+
+            } catch (error) {
+                alert("Erro capturado pelo Supabase: " + error.message);
+                console.error(error);
+            } finally {
+                btn.innerHTML = 'CRIAR CONTA <i class="fa-solid fa-user-plus"></i>';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

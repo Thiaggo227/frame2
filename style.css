@@ -1,0 +1,1345 @@
+/* ==========================================================================
+   CONFIGURAÇÕES GERAIS
+   ========================================================================== */
+   *,
+   *::before,
+   *::after {
+       margin: 0;
+       padding: 0;
+       box-sizing: border-box;
+   }
+   
+   html,
+   body {
+       width: 100%;
+       max-width: 100%;
+       overflow-x: hidden;
+   }
+   
+   body {
+       font-family: 'Inter', sans-serif;
+       background: #f7f7f7;
+       color: #3e3e3e;
+   }
+   
+   /* Responsividade de Mídia */
+   img,
+   video,
+   iframe {
+       max-width: 100%;
+       height: auto;
+       display: block;
+   }
+   
+   input,
+   button,
+   textarea,
+   select {
+       max-width: 100%;
+       font-family: inherit;
+   }
+   
+   /* Impede o zoom automático ao focar nos inputs em dispositivos móveis */
+   input[type="text"],
+   input[type="email"],
+   input[type="password"] {
+       font-size: 16px !important;
+   }
+   
+   /* ==========================================================================
+      HEADER & NAVEGAÇÃO
+      ========================================================================== */
+      header {
+        background-color: rgba(255, 255, 255, 0.87);
+        width: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        z-index: 1000;
+        padding: 10px; /* Zere o padding superior/inferior e controle a altura por fora */   /* Altura fixa garante que o alinhamento central funcione perfeito */
+        display: flex;
+        align-items: center; 
+        justify-content: space-between; 
+        box-shadow: 0 4px 20px #00000014;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+   
+    .logo {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center; 
+        line-height: 1; /* Garante que o texto não ganhe margens invisíveis em cima ou embaixo */
+    }
+   
+   .logo .nav-username {
+       font-size: 14px;
+       font-weight: 500;
+       color: #3e3e3e;
+       margin-left: 10px;
+   }
+   
+   .menu {
+       display: none;
+       font-size: 20px;
+       cursor: pointer;
+   }
+   
+   .close-menu {
+       display: none;
+   }
+   
+   nav {
+       display: flex;
+       gap: 35px;
+       flex-shrink: 0;
+   }
+   
+   nav a {
+       position: relative;
+       text-decoration: none;
+       color: #3e3e3e;
+       font-size: 11px;
+       font-weight: 500;
+       letter-spacing: 2px;
+       transition: color 0.2s;
+   }
+   
+   nav a::after {
+       content: "";
+       position: absolute;
+       left: 0;
+       bottom: -5px;
+       width: 0;
+       height: 1px;
+       background: #111111;
+       transition: width 0.3s ease;
+   }
+   
+   nav a:hover {
+       color: #111111;
+   }
+   
+   nav a:hover::after {
+       width: 100%;
+   }
+   
+   #nav-logout {
+       color: #ff0000;
+   }
+   
+   .actions {
+       display: flex;
+       align-items: center;
+       gap: 20px;
+   }
+   
+   .actions button {
+       border: none;
+       border-radius: 3px;
+       background-color: #3e3e3e;
+       color: #f7f7f7;
+       padding: 10px 15px;
+       font-size: 11px;
+       font-weight: 700;
+       letter-spacing: 1px;
+       cursor: pointer;
+       margin-right: 50px;
+       transition: background-color 0.2s;
+   }
+   
+   .actions button:hover {
+       background-color: #141414;
+   }
+   
+   /* ==========================================================================
+      HERO & FEED SECTIONS
+      ========================================================================== */
+   .hero {
+       display: flex;
+       align-items: center;
+       padding: 60px 70px 0;
+   }
+   
+   .content .paragrafoPost {
+       margin-top: -50px;
+       max-width: 550px;
+       font-size: 16px;
+       line-height: 1.8;
+       color: #3e3e3e;
+   }
+   
+   .textFeed {
+       margin-top: 40px;
+       display: flex;
+       align-items: center;
+       text-align: center;
+       font-size: 18px;
+       color: #333;
+   }
+   
+   .textFeed::before,
+   .textFeed::after {
+       content: "";
+       flex: 1;
+       border-bottom: 1px solid #3e3e3e;
+       margin: 0 20px;
+   }
+   
+   /* Recent Block */
+   .recent {
+       padding: 0 70px 60px;
+   }
+   
+   .recent-top {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       padding-bottom: 18px;
+       border-bottom: 1px solid #ddd;
+   }
+   
+   /* ==========================================================================
+      FEED DOS CARDS
+      ========================================================================== */
+      .gallery {
+        margin-top: 40px;
+        display: grid;
+        /* Define um tamanho padrão fixo/fluido para telas maiores (mínimo de 340px e máximo de 1fr) */
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 30px;
+    }
+   
+    .card {
+        height: auto; 
+        margin-bottom: 10px;
+        background: #ffffff; /* Fundo branco sutil destaca o contorno retangular do card */
+        box-shadow: 0 1px 3px #0000000d;
+        overflow: hidden;
+        border: 1px solid #0000000f;
+    }
+   
+   .card-post {
+       position: relative;
+   }
+   
+   .card-image-wrapper {
+    width: 100%;
+    /* Define um aspecto de proporção quadrado padrão perfeito (1:1) independente do tamanho da tela */
+    aspect-ratio: 1 / 1; 
+    overflow: hidden;
+    background-color: #fcfcfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+   
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    /* Preenche totalmente a área quadrada sem distorcer ou deixar faixas cinzas nas laterais */
+    object-fit: cover; 
+}
+.card-content {
+    padding: 16px; /* Espaçamento interno padronizado para as legendas e datas abaixo da imagem */
+}
+   
+   .paragrafoPost {
+       margin-top: 10px;
+       font-size: 14px;
+       line-height: 1.5;
+       color: #555555;
+       word-wrap: break-word;
+   }
+   
+   /* Opções Flutuantes do Card (Desktop) */
+   .card-options-container {
+       position: absolute;
+       top: 15px;
+       right: 15px;
+       z-index: 10;
+   }
+   
+   .btn-options {
+       background: #ffffffb9;
+       backdrop-filter: blur(4px);
+       border: none;
+       width: 32px;
+       height: 32px;
+       border-radius: 50%;
+       cursor: pointer;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       font-size: 16px;
+       color: #333;
+       transition: background 0.2s, transform 0.1s;
+       box-shadow: 0 2px 8px #0000001a;
+   }
+   
+   .options-menu {
+       position: absolute;
+       top: 38px;
+       right: 0;
+       background-color: #ffffff;
+       border-radius: 8px;
+       box-shadow: 0 4px 15px #0000001a;
+       min-width: 170px;
+       overflow: hidden;
+       display: flex;
+       flex-direction: column;
+       opacity: 0;
+       transform: translateY(-10px);
+       pointer-events: none;
+       transition: opacity 0.2s cubic-bezier(0.1, 0.7, 0.1, 1), transform 0.2s cubic-bezier(0.1, 0.7, 0.1, 1);
+   }
+   
+   .options-menu.active {
+       opacity: 1;
+       transform: translateY(0);
+       pointer-events: auto;
+   }
+   
+   .menu-item {
+       background: none;
+       border: none;
+       padding: 12px 16px;
+       text-align: left;
+       font-size: 13px;
+       color: #3e3e3e;
+       cursor: pointer;
+       display: flex;
+       align-items: center;
+       gap: 10px;
+       transition: background 0.15s;
+       width: 100%;
+   }
+   
+   .menu-item i {
+       font-size: 14px;
+       color: #777777;
+       width: 16px;
+   }
+   
+   .menu-item:hover {
+       background-color: #f5f5f5;
+   }
+   
+   .menu-item.btn-delete-post {
+       color: #df4747;
+   }
+   
+   .menu-item.btn-delete-post i {
+       color: #df4747;
+   }
+   
+   .menu-item.btn-delete-post:hover {
+       background-color: #fff5f5;
+   }
+   
+   /* Feed Vazio */
+   .sem-registros {
+       grid-column: 1 / -1; 
+       width: 100%;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       text-align: center;
+       padding: 60px 20px;
+       margin: 20px auto;
+       color: #8e8e93;
+   }
+   
+   .sem-registros i {
+       font-size: 32px;
+       margin-bottom: 16px;
+       color: #c7c7cc;
+   }
+   
+   .sem-registros p {
+       font-size: 15px;
+       font-weight: 400;
+       letter-spacing: -0.01em;
+       margin: 0;
+   }
+   
+   /* Botões do Post Custom */
+   #btnEnviarPost:disabled:hover {
+       background-color: #7a7a7a; 
+       color: #ffffff;            
+       opacity: 1;                
+       cursor: not-allowed;       
+   }
+   
+   /* ==========================================================================
+      ALBUM / MINHA GALERIA CONTROLE
+      ========================================================================== */
+   .minha-galeria-section {
+       padding: 100px 24px 40px; 
+       max-width: 1100px;
+       margin: 0 auto;
+   }
+   
+   .galeria-header {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-bottom: 35px;
+       border-bottom: 1px solid #e2e2e2;
+       padding-bottom: 15px;
+   }
+   
+   .galeria-contador {
+       font-size: 14px;
+       color: #777777;
+       font-weight: 500;
+   }
+   
+   .album-photos-grid {
+       display: grid;
+       grid-template-columns: 1fr 1fr; 
+       gap: 24px;
+   }
+   
+   .album-photo-wrapper {
+       position: relative;
+       aspect-ratio: 4 / 3; 
+       border-radius: 12px;
+       overflow: hidden;
+       background-color: #f0f0f0;
+       border: 1px solid rgba(0, 0, 0, 0.06);
+       transition: transform 0.3s ease, box-shadow 0.3s ease;
+       width: 100%; 
+   }
+   
+   .album-photo-wrapper:hover {
+       transform: translateY(-4px);
+       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+   }
+   
+   .album-photo-wrapper img {
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
+   }
+   
+   .btn-delete-galeria {
+       position: absolute;
+       top: 12px;
+       right: 12px;
+       background: rgba(255, 255, 255, 0.95);
+       color: #333;
+       border: none;
+       border-radius: 50%;
+       width: 36px;
+       height: 36px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+       transition: all 0.2s ease;
+       z-index: 10;
+   }
+   
+   .btn-delete-galeria:hover {
+       background: #ff3b30;
+       color: #fff;
+       transform: scale(1.08);
+   }
+   
+   /* ==========================================================================
+      PERFIL SEÇÃO
+      ========================================================================== */
+   .profile-section {
+       margin-top: 70px; 
+       padding: 30px 70px 10px;
+       background-color: #f7f7f7;
+   }
+   
+   .profile-container {
+       max-width: 1100px;
+       margin: 0 auto;
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       padding-bottom: 25px;
+   }
+   
+   .profile-left {
+       display: flex;
+       align-items: center;
+       gap: 20px;
+   }
+   
+   .profile-avatar-container {
+       position: relative; 
+       width: 120px;
+       height: 120px;
+       border-radius: 50%;
+       background-color: #e2e2e2;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       overflow: visible; 
+       border: 1px solid rgba(0, 0, 0, 0.08);
+       flex-shrink: 0; 
+   }
+   
+   #avatar-content {
+       width: 100%;
+       height: 100%;
+       border-radius: 50%;
+       overflow: hidden;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       font-size: 32px;
+       color: #777777;
+   }
+   
+   #avatar-content img {
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
+   }
+   
+   .avatar-action-btn {
+       position: absolute;
+       bottom: -2px;
+       right: -2px;
+       width: 28px;
+       height: 28px;
+       border-radius: 50%;
+       border: 2px solid #f7f7f7;
+       background: #111111;
+       color: #ffffff;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       font-size: 11px;
+       cursor: pointer;
+       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+       transition: all 0.2s ease;
+       z-index: 5;
+   }
+   
+   .avatar-action-btn:hover {
+       transform: scale(1.1);
+   }
+   
+   .avatar-action-btn.delete-mode {
+       background: #ff3b30;
+   }
+   
+   .profile-info h2 {
+       font-size: 20px;
+       font-weight: 700;
+       color: #111111;
+       margin-bottom: 4px;
+   }
+   
+   .profile-info p {
+       font-size: 14px;
+       color: #777777;
+   }
+   
+   .profile-right {
+       text-align: center;
+   }
+   
+   .counter-box {
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+   }
+   
+   .counter-number {
+       font-size: 24px;
+       font-weight: 800;
+       color: #111111;
+       letter-spacing: -0.5px;
+   }
+   
+   .counter-label {
+       font-size: 11px;
+       font-weight: 700;
+       color: #888;
+       text-transform: uppercase;
+       letter-spacing: 1px;
+       margin-top: 2px;
+   }
+   
+   /* ==========================================================================
+      TELA DE LOGIN
+      ========================================================================== */
+   .login-body {
+       background: #f4f4f4; 
+       min-height: 100vh;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       padding: 20px;
+   }
+   
+   .login-container {
+       background: #ffffff;
+       width: 100%;
+       max-width: 420px;
+       padding: 45px 35px;
+       border-radius: 12px;
+       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+       text-align: center;
+   }
+   
+   .login-logo {
+       font-size: 24px;
+       font-weight: 900;
+       letter-spacing: 4px;
+       color: #111111;
+       text-decoration: none;
+       display: inline-block;
+       margin-bottom: 30px;
+       transition: opacity 0.2s;
+   }
+   
+   .login-logo:hover {
+       opacity: 0.7;
+   }
+   
+   .login-container h2 {
+       font-size: 22px;
+       font-weight: 600;
+       color: #111111;
+       margin-bottom: 8px;
+       letter-spacing: -0.5px;
+   }
+   
+   .login-subtitle {
+       font-size: 14px;
+       color: #777777;
+       margin-bottom: 35px;
+   }
+   
+   .login-form {
+       display: flex;
+       flex-direction: column;
+       gap: 20px;
+   }
+   
+   .input-group {
+       position: relative;
+       width: 100%;
+   }
+   
+   .input-icon {
+       position: absolute;
+       left: 16px;
+       top: 50%;
+       transform: translateY(-50%);
+       color: #aaa;
+       font-size: 15px;
+       transition: color 0.2s;
+   }
+   
+   .input-group input {
+       width: 100%;
+       padding: 15px 15px 15px 46px; 
+       border: 1px solid #e2e2e2;
+       border-radius: 8px;
+       background: #fafafa;
+       font-size: 14px;
+       color: #111111;
+       outline: none;
+       transition: all 0.2s ease;
+   }
+   
+   .input-group input:focus {
+       border-color: #111111;
+       background: #fff;
+       box-shadow: 0 0 0 3px rgba(17,17,17,0.05);
+   }
+   
+   .input-group input:focus + .input-icon {
+       color: #111111; 
+   }
+   
+   .login-options {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       font-size: 13px;
+       color: #666;
+       margin-top: -5px;
+   }
+   
+   .remember-me {
+       display: flex;
+       align-items: center;
+       gap: 8px;
+       cursor: pointer;
+   }
+   
+   .remember-me input {
+       accent-color: #111111; 
+       cursor: pointer;
+   }
+   
+   .forgot-password {
+       color: #666;
+       text-decoration: none;
+       transition: color 0.2s;
+   }
+   
+   .forgot-password:hover {
+       color: #b95c39; 
+   }
+   
+   .btn-login {
+       background: #111111;
+       color: #ffffff;
+       border: none;
+       padding: 15px;
+       font-size: 13px;
+       font-weight: 600;
+       letter-spacing: 2px;
+       border-radius: 8px;
+       cursor: pointer;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       gap: 10px;
+       margin-top: 10px;
+       transition: background 0.2s, transform 0.1s;
+   }
+   
+   .btn-login:hover {
+       background: #2a2a2a;
+   }
+   
+   .btn-login:active {
+       transform: scale(0.98);
+   }
+   
+   .login-footer {
+       margin-top: 35px;
+       font-size: 13px;
+       color: #777777;
+   }
+   
+   .login-footer a {
+       color: #111111;
+       font-weight: 600;
+       text-decoration: none;
+   }
+   
+   .login-footer a:hover {
+       text-decoration: underline;
+   }
+   
+   /* ==========================================================================
+      MODAIS GERAIS (SISTEMA, LOGOUT & DELETAR)
+      ========================================================================== */
+   .modal-overlay {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100vw;
+       height: 100vh;
+       background: rgba(0, 0, 0, 0.4);
+       backdrop-filter: blur(4px); 
+       z-index: 2000; 
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       opacity: 0;
+       pointer-events: none;
+       transition: opacity 0.3s ease;
+   }
+   
+   .modal-overlay.active {
+       opacity: 1;
+       pointer-events: all;
+   }
+   
+   .modal-card {
+       background: #ffffff;
+       width: 90%;
+       border-radius: 5px;
+       max-width: 400px;
+       padding: 35px 25px;
+       box-shadow: 0 20px 50px #00000026;
+       text-align: center;
+       transform: translateY(20px) scale(0.9);
+       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+   }
+   
+   .modal-overlay.active .modal-card {
+       transform: translateY(0) scale(1);
+   }
+   
+   .modal-icon {
+       font-size: 40px;
+       color: #b95c39; 
+       background: rgba(185, 92, 57, 0.1);
+       width: 60px;
+       height: 60px;
+       border-radius: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin: 0 auto 20px;
+   }
+   
+   .modal-card h3 {
+       font-size: 20px;
+       font-weight: 600;
+       color: #111111;
+       margin-bottom: 10px;
+   }
+   
+   .modal-card p {
+       font-size: 14px;
+       color: #666;
+       line-height: 1.5;
+       margin-bottom: 30px;
+   }
+   .album-photo-wrapper {
+    position: relative;
+    aspect-ratio: 4 / 3; 
+    border-radius: 5px; /* <-- REMOVA OU ALTERE ESTA LINHA */
+    overflow: hidden;
+    background-color: #f0f0f0;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; 
+}
+   
+   .modal-buttons {
+       display: flex;
+       gap: 12px;
+       justify-content: center;
+   }
+   
+   .modal-buttons button, 
+   .btn-modal-confirm {
+       flex: 1;
+       padding: 14px;
+       font-size: 13px;
+       font-weight: 600;
+       border: none;
+       border-radius: 8px;
+       cursor: pointer;
+       transition: all 0.2s ease;
+   }
+   
+   .btn-modal-cancel {
+       background: #f0f0f0;
+       color: #444;
+   }
+   
+   .btn-modal-cancel:hover {
+       background: #e5e5e5;
+   }
+   
+   .btn-modal-confirm {
+       background: #111111;
+       color: #ffffff;
+       width: 100%;
+   }
+   
+   .btn-modal-confirm:hover {
+       background: #b95c39; 
+   }
+   
+   /* ==========================================================================
+      MOBILE BOTTOM SHEET
+      ========================================================================== */
+   #optionsModal {
+       align-items: flex-end;
+   }
+   
+   .bottom-sheet {
+       background: #ffffff;
+       width: 100%;
+       max-width: 100%;
+       border-radius: 16px 16px 0 0; 
+       padding: 14px 0 30px 0;
+       box-shadow: 0 -10px 40px #00000026;
+       transform: translateY(100%);
+       transition: transform 0.35s cubic-bezier(0.1, 0.7, 0.1, 1);
+   }
+   
+   .modal-overlay.active .bottom-sheet {
+       transform: translateY(0);
+   }
+   
+   .sheet-drag-handle {
+       width: 40px;
+       height: 4px;
+       background: #e0e0e0;
+       border-radius: 2px;
+       margin: 0 auto 12px auto;
+   }
+   
+   .sheet-buttons {
+       display: flex;
+       flex-direction: column;
+   }
+   
+   .sheet-item {
+       background: none;
+       border: none;
+       padding: 16px 24px;
+       text-align: left;
+       font-size: 15px;
+       color: #3e3e3e;
+       cursor: pointer;
+       display: flex;
+       align-items: center;
+       gap: 14px;
+       width: 100%;
+       border-bottom: 1px solid #f2f2f2;
+   }
+   
+   .sheet-item i {
+       font-size: 16px;
+       color: #666;
+       width: 20px;
+       text-align: center;
+   }
+   
+   .sheet-item:active {
+       background-color: #f9f9f9;
+   }
+   
+   .sheet-item.btn-delete-post-mobile {
+       color: #df4747;
+   }
+   .sheet-item.btn-delete-post-mobile i {
+       color: #df4747;
+   }
+   
+   .btn-sheet-cancel {
+       border-bottom: none;
+       font-weight: 600;
+       color: #111111;
+       justify-content: center; 
+       margin-top: 5px;
+   }
+   
+   /* ==========================================================================
+      FOOTER
+      ========================================================================== */
+   footer {
+       margin-top: 100px;
+       padding: 40px 20px;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       gap: 20px;
+       border-top: 1px solid #e5e5e5;
+       background: #f7f7f7;
+   }
+   
+   .footer-logo {
+       font-size: 18px;
+       font-weight: 800;
+       letter-spacing: 3px;
+   }
+   
+   .footer-links {
+       display: flex;
+       gap: 25px;
+   }
+   
+   .footer-links a {
+       text-decoration: none;
+       color: #777777;
+       font-size: 13px;
+       transition: color .2s;
+   }
+   
+   .footer-links a:hover {
+       color: #111111;
+   }
+   
+   footer p {
+       font-size: 12px;
+       color: #999999;
+       text-align: center;
+   }
+   
+   /* ==========================================================================
+      MEDIA QUERIES (RESPONSIVIDADE)
+      ========================================================================== */
+   
+   @media (max-width: 900px) {
+       .content h1 {
+           font-size: 35px;
+           letter-spacing: -2px;
+       }
+       .content p {
+           font-size: 15px;
+       }
+   }
+   
+   @media (max-width: 768px) {
+       header {
+           padding: 15px 24px;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+       }
+   
+       .logo {
+           margin-left: 0;
+           font-size: 16px;
+           order: 1; 
+       }
+   
+       .logo .nav-username {
+           font-size: 13px; 
+           font-weight: 600; 
+           font-family: 'Montserrat', sans-serif;
+           margin-left: 6px;
+           display: inline;  
+           position: static; 
+       }
+   
+       .actions {
+           order: 2; 
+           margin-left: auto;   
+           margin-right: 25px;  
+           gap: 10px;           
+       }
+       
+       .actions button {
+           display: block;      
+           padding: 8px 15px;   
+           font-size: 15px;     
+           font-weight: 700;
+           letter-spacing: 1px;
+           margin-right: 0;     
+           background-color: #3e3e3e; 
+           color: #ffffff;            
+           border: none;              
+           box-shadow: none;          
+           border-radius: 50px;       
+           cursor: pointer;
+       }
+   
+       .actions button span {
+           display: none;
+       }
+   
+       .menu {
+           display: block; 
+           order: 3; 
+       }
+   
+       /* Menu Lateral Responsivo Drawer */
+       nav {
+           position: fixed;
+           top: 0;
+           right: -100%; 
+           width: 80%;
+           max-width: 320px;
+           height: 100vh;
+           background-color: #ffffff;
+           box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+           display: flex;
+           flex-direction: column;
+           justify-content: flex-start; 
+           align-items: flex-start;
+           padding-top: 100px; 
+           gap: 40px;
+           z-index: 1001;
+           transition: right 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
+       }
+   
+       nav.active {
+           right: 0 !important;
+       }
+   
+       nav a {
+           font-size: 13px; 
+           margin-left: 30px;
+       }
+   
+       .close-menu {
+           display: block;
+           position: absolute;
+           top: 25px;
+           right: 25px;
+           font-size: 13px;
+           cursor: pointer;
+           color: #111111;
+       }
+   
+       /* Seções Mobile */
+       .hero {
+           padding: 75px 24px 40px;
+       }
+   
+       .profile-section {
+           margin-top: 60px; 
+           padding: 20px 24px 0;
+       }
+   
+       .profile-avatar-container {
+           margin-top: 10px;
+           width: 65px;
+           height: 65px;
+       }
+       
+       #avatar-content {
+           font-size: 24px;
+       }
+       
+       .avatar-action-btn {
+           width: 24px;
+           height: 24px;
+           font-size: 10px;
+       }
+   
+       .counter-number {
+           font-size: 20px;
+       }
+   
+       .recent {
+           padding: 0 12px 60px;
+       }
+   
+       .gallery {
+        /* Altera de 1fr para duas colunas iguais (2 por 2) */
+        grid-template-columns: 1fr 1fr; 
+        /* Diminui um pouco o espaço entre os cards para aproveitar melhor a tela */
+        gap: 8px; 
+    }
+   
+    .card {
+        height: auto; 
+        /* Remove ou diminui a margem inferior já que o gap do grid vai controlar o espaçamento */
+        margin-bottom: 0; 
+    }
+   
+    .card-image-wrapper {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 5; /* Define o formato vertical/retrato mais alto */
+        overflow: hidden;
+        background-color: #fcfcfc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    /* Ajuste de respiro interno para telas pequenas */
+    .card-content {
+        padding: 10px; 
+    }
+       
+       .right {
+           display: none; 
+       }
+       
+       .footer-links {
+           flex-wrap: wrap;
+           justify-content: center;
+           gap: 15px;
+       }
+   
+       /* Visibilidade e Troca de Menus (Desktop vs Mobile) */
+       .options-menu {
+           display: none !important; 
+       }
+       .card-options-container {
+        top: 6px;   /* Padrão era 15px. Diminuindo o número ele sobe */
+        right: 8px;  /* Se quiser ajustar a distância da borda direita também */
+    }
+   }
+   
+   @media (min-width: 769px) {
+       #optionsModal {
+           display: none !important; 
+       }
+   }
+   
+   @media (max-width: 500px) {
+       .album-photos-grid {
+           grid-template-columns: 1fr !important; 
+           gap: 16px !important;
+       }
+   }
+   
+   @media (max-width: 400px) {
+       .login-container {
+           padding: 35px 20px;
+       }
+   }
+   /* ==========================================================================
+   TELA DE LOGIN / CADASTRO (OTIMIZADA)
+   ========================================================================== */
+.login-body {
+    background: #f4f4f4; 
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px; /* Reduzido levemente para dar mais margem em telas menores */
+}
+
+.login-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 400px; /* Tamanho ideal e seguro para desktops e mobile */
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho real do container */
+}
+
+.login-logo {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #111111;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 25px;
+    transition: opacity 0.2s;
+}
+
+.login-container h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #111111;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+    font-size: 14px;
+    color: #777777;
+    margin-bottom: 30px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Diminuído de 20px para economizar espaço vertical no mobile */
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 15px;
+    transition: color 0.2s;
+    z-index: 5;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px 14px 46px; 
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    background: #fafafa;
+    font-size: 16px !important; /* Mantém regra anti-zoom do mobile */
+    color: #111111;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* Espaço extra específico no input de senha para o ícone do olho */
+#passwordInput {
+    padding-right: 48px !important; 
+}
+
+.toggle-password {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+.input-group input:focus {
+    border-color: #111111;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(17,17,17,0.05);
+}
+
+.input-group input:focus + .input-icon {
+    color: #111111; 
+}
+
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #666;
+    margin-top: -2px;
+    flex-wrap: wrap; /* Se faltar espaço horizontal, os elementos quebram linha em vez de esmagar */
+    gap: 8px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.btn-login {
+    background: #111111;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;
+    width: 100%;
+    transition: background 0.2s, transform 0.1s;
+}
+
+/* Proteção extra para telas extremamente pequenas (Ex: Moto G4, celulares antigos ou relógios inteligentes) */
+@media (max-width: 360px) {
+    .login-container {
+        padding: 25px 16px; /* Diminui o recuo interno para sobrar mais espaço para os inputs */
+    }
+    .login-options {
+        flex-direction: column;
+        align-items: flex-start; /* Alinha "Lembrar de mim" e "Esqueceu a senha" verticalmente */
+    }
+}
